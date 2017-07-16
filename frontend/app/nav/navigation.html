@@ -1,0 +1,21 @@
+<div ng-controller="NavBarCtrl">
+  <nav class="navbar navbar-default" role="navigation">
+  		<div class="navbar-header">
+  			<button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed">
+  				<span class="sr-only">Toggle navigation</span>
+  				<span class="icon-bar"></span>
+  				<span class="icon-bar"></span>
+  				<span class="icon-bar"></span>
+  			</button>
+  			<a class="navbar-brand" ng-href="/#!/main/">HOME</a>
+  		</div>
+  		<div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
+    			<ul class="nav navbar-nav" ng-click="current.logOut()" ng-show="loggedIn">
+            <li ng-click="logOut()"><a ng-href=''>LOG OUT</a></li>
+            <li><a ng-href="/#!/profile/">{{ username }}<img class="nav-pic" ng-src='{{pandapic}}'/></a></li>
+            <li ng-show='username=="admin"'><a ng-href=''>ADMIN MODE</a></li>
+    			</ul>
+
+  		</div>
+  	</nav>
+</div>

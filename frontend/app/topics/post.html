@@ -1,0 +1,23 @@
+<div>
+  <div class="post-text">
+    <span ng-show="!editMode">
+      <p> {{ index-(-1) }}. {{ info.value.text }} </p>
+    </span>
+    <span ng-show="editMode">
+      <input ng-model="info.value.text">
+      <button ng-click='$parent.edit(index)'>SAVE</button>
+    </span>
+  </div>
+  <div class="post-info">
+    <p> Created by {{ info.value.created_by }} at {{ info.value.created_at | date : "MM/dd/yyyy',' h:mma" : GMT}} </p>
+    <p> Likes: {{ info.value.upvotes-info.value.downvotes }} </p>
+    <div class="post-buttons">
+      <button ng-click='$parent.vote(index,"+")' ng-disabled='$parent.reactedTo(index)'>LIKE</button>
+      <button ng-click='$parent.vote(index,"-")' ng-disabled='$parent.reactedTo(index)'>DISLIKE</button>
+    </div>
+    <div ng-show="$parent.ownPost(index)" class="post-buttons">
+      <button ng-click="editMode=true">EDIT</button>
+      <button ng-click='$parent.delete(index)' >DELETE</button>
+    </div>
+  <div>
+</div>

@@ -1,0 +1,5 @@
+<div class=topic-create>
+  <h3>Create a new topic!</h3>
+  <label>TITLE: <input type="text" width="50%" ng-model="newTopic.title"></label>
+  <button ng-disabled="invalidText()" class="newButton" ng-click="createTopic()">{{ invalidText() == true ? 'ENTER TEXT' : 'CREATE!' }}</button>
+</div>

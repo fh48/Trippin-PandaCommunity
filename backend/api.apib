@@ -1,0 +1,384 @@
+# tpanda API
+
+# Group tpanda
+tpanda is a simple API allowing internal retrieval of data from the tpanda database
+
+## Allowed HTTP requests
+<pre>
+  POST     : Create object
+  GET      : Retrieve object or list of objects
+  PATCH    : Update a specific field in an object
+  DELETE   : Deletes an object
+</pre>
+
+## Server responses
+- 200 `OK` - the request was successful (some API calls may return 201 instead).
+- 201 `Created` - the request was successful and a resource was created.
+- 204 `No Content` - the request was successful but there is no representation to return (i.e. the response is empty).
+- 400 `Bad Request` - the request could not be understood or was missing required parameters.
+- 401 `Unauthorized` - authentication failed or user doesn't have permissions for requested operation.
+- 403 `Forbidden` - access denied.
+- 404 `Not Found` - resource was not found.
+- 405 `Method Not Allowed` - requested method is not supported for resource.
+
+## tpanda API Root [/api/]
+
+# Group Destination
+Destination details
+
+---
+**Destination Attributes**
+
+- id `(String)` : unique identifier for the destination (randomly generated)
+- type `(String)` : "destination"
+- name `(String)` : the name of the destination
+- created_at `(Timestamp)` : date when the destination was created, ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`
+- created_by `(User_id)` : id of the user that created the destination
+- country `(String)` : the country in which the destination is located
+- img `(String)` : uri to image of the destination (web link)
+
+---
+
+## Destinations collection [/destinations]
+### List all destinations [GET]
+Retrieve list of all destination objects
+
++ Response 200 (application/json)
+
+        [
+            {
+              "id" : "1928fkw",
+              "type" : "dest",
+              "name" : "London",
+              "created_at" : "2017-03-01T22:11:05Z",
+              "country" : "England",
+              "img" : "/media/images/London.jpg"
+            },
+            {
+              "id" : "98ss654",
+              "type" : "dest",
+              "name" : "Paris",
+              "created_at" : "2017-05-01T22:11:05Z",
+              "country" : "France",
+              "img" : "/media/images/Paris.jpg"
+            },
+        ]
+
+### Create a destination [POST]
++ Request (application/json)
+
+    {
+        "name" : "Amsterdam",
+        "country" : "Netherlands",
+    }
+
++ Response 201 (application/json)
+
+    {
+        "name" : "Amsterdam",
+        "country" : "Netherlands",
+    }
+
+## Destination [/destinations/{dest_id}]
+A single destination object - not useful for much
+
++ Parameters
+    + dest_id: 1 (required, string) - id of the destination
+
+## Group Topic
+Details on topic objects
+
+---
+**Topic Attributes**
+
+- id `(String)` : unique identifier for the topic
+- title `(String)` : the title of topic
+- type `(String)` : "topic"
+- created_at `(Timestamp)` : date when the destination was created, ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`
+- created_by `(User_id)` : id of the user that created the destination
+- destination `(Destination_id)` : the unique identifier for the parent destination
+- latest_post `(Post_id)` : the id of the last post made to this topic
+- latest_post_time `(Timestamp)` : the time of the last post made
+- post_count `(Number)` : how many posts in this topic
+- upvotes `(Number)` : number of upvotes
+- downvotes `(Number)` : number of downvotes
+
+---
+## Topic Collection [/topics/{dest_id}]
+### List all Topics [GET]
+Retrieve list of topics for specific destination
+
++ Parameters
+    + dest_id: 1 (required, number) - id of the destination
+
++ Response 200 (application/json)
+
+    [
+        {
+          "id" : "2jbf21",
+          "type" : "topic",
+          "title" : "Where are the waffles?",
+          "created_at" : "2017-05-01T22:11:05Z",
+          "created_by" : "jjF24987",
+          "destination" : "48asrf26",
+          "latest_post" : "asldknf28",
+          "latest_post_time" : "2017-05-01T22:11:05Z",
+          "post_count" : 33,
+          "upvotes" : 21,
+          "downvotes" : 2,
+        }
+    ]
+
++ Response 401 (application/json)
+
+    {
+        "error" : "error.unauthorized"
+    }
+
+### Create a Topic [POST]
++ Request (application/json)
+
+    {
+        "title" : "Where are the waffles?",
+        "created_by" : "jjF24987",
+        "destination" : "48asrf26"
+    }
+
++ Response 201 (application/json)
+
+    {
+        "id" : "2jbf21",
+        "title" : "Where are the waffles?",
+        "destination" : "48asrf26",
+    }
+
+## Topic [/topics/{topic_id}]
+A single Topic object with all its details
+
+### Edit a Topic [PATCH]
++ Request (application/json)
+
+    {
+        "user_id" : "2jbf21",
+        "title" : "No really where are the waffles?",
+    }
+
+### Delete a Topic [DELETE]
++ Response 204
+
++ Response 401 (application/json)
+
+    {
+        "error": "error.unauthorized"
+    }
+
+## Vote [/topics/{topic_id}/vote]
+Access the topic's upvote/downvote properties
+
+### Vote on a Topic [POST]
++ Request (application/json)
+
+    {
+        "vote" : vote ("+" or "-"),
+    }
+
++ Response 200
+
++ Response 401 (application/json)
+
+    {
+        "error": "error.unauthorized"
+    }
+
+# Group Post
+Shows post details
+
+---
+
+**Post attributes:**
+
+- id `(String)` : unique identifier.
+- type `(String)` : "post"
+- text `(String)` : body of the post
+- created_at `(Timestamp)` : date when the post was created, ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`
+- created_by `(User_id)` : id of the user that created the post
+- topic `(Topic_id)` : the unique identifier for the parent topic
+- upvotes `(Number)` : number of upvotes
+- downvotes `(Number)` : number of downvotes
+
+---
+## Post Collection [/posts/{topic_id}]
+### List all posts [GET]
+Retrieve list of all posts at that topic
+
++ Response 200 (application/json)
+
+    [
+        {
+          "id" : "3245jkb",
+          "type" : "post"
+          "text" : "I'm going to Amsterdam and I want to know where the waffles at?",
+          "created_at" : "2017-05-01T22:11:05Z",
+          "created_by" : "jjF24987",
+          "topic" : "2jbf21",
+          "upvotes" : 1,
+          "downvotes" : 2
+        },
+        {
+          "id" : "3291kkk",
+          "type" : "post",
+          "text" : "Where's the best place to go cycling?",
+          "created_at" : "2017-05-01T14:11:05Z",
+          "created_by" : "jjF241gn",
+          "topic" : "2jbf21",
+          "upvotes" : 2,
+          "downvotes" : 1
+        }
+    ]
+
++ Response 401 (application/json)
+
+    {
+        "error": "error.unauthorized"
+    }
+
+### Create a post [POST]
++ Request (application/json)
+
+    {
+        "text" : "Where's the best place to go cycling?",
+        "topic" : "2jbf21",
+    }
+
++ Response 201 (application/json)
+
+    {
+        "id": "2358947nadsf",
+        "text" : "Where's the best place to go cycling?"
+    }
+
+## Post [/posts/{post_id}]
+A single Post object with all its details (not useful for much)
+
+### Edit a post [PATCH]
++ Request (application/json)
+
+    {
+        "id" : "2358947nadsf",
+        "text" : "Where's the best place to go cycling in November?",
+        "topic" : "2jbf21"
+    }
+
+## Vote [/posts/{post_id}/vote]
+Access the post's upvote/downvote properties
+
+### Upvote a Post POST]
++ Request (application/json)
+
+    {
+        "vote" : vote ("+" or "-"),
+    }
+
+    + Response 200
+
+    + Response 401 (application/json)
+
+        {
+            "error": "error.unauthorized"
+        }
+
+## Group User
+Details on User objects
+
+---
+
+**User attributes**
+
+- id `(String)` : unique identifier for the user
+- type `(String)` : either "user" or "admin"
+- username `(String)` : the unique username of the user
+- password `(String)` : password for the user
+- created_at `(Timestamp)` : date when the user signed up, ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`
+- posts `[String]` : array of post_id that the user created
+- topics `[String]` : array of topics the user created
+- post_upvotes `[String]` : array of post_id that the user upvoted
+- post_downvotes `[String]` : array of post_id that the user downvoted
+- topic_upvotes `[String]` : array of topic_id that the user upvoted
+- topic_downvotes `[String]` : array of topic_id that the user downvoted
+
+---
+
+## User Collection [/users/]
+
+### Create a User [PUT]
++ Request (application/json)
+
+        {
+            "username": "Rambo",
+            "password" : "passw0rd"
+        }
+
++ Response 201 (application/json)
+
+        {
+            "id": "n3k4jj5",
+            "username": "Rambo",
+            "password" : "21q345kjkbjkjsadf", //Hashed
+            "created_at" : "2017-05-01T14:11:05Z",
+            "posts" : ["asdfjb222", "1234bjbkj", "289hnhns"],
+            "topics" : ["asdfjb222", "1234bjbkj", "289hnhns"],
+
+        }
+
+## User [/users/{id}]
+A single User object with all its details
+
++ Parameters
+    + id (required, String, `1`) ... String `id` of the User to perform action with.
+
+### Retrieve a User [GET]
++ Response 200 (application/json)
+
+    + Body
+
+        {
+              "id" : "n3k4jj5",
+              "type" : "user",
+              "username" : "Rambo",
+              "password" : "21q345kjkbjkjsadf", //Hashed
+              "created_at"  : "2017-05-01T14:11:05Z",
+              "posts" : ["asdfjb222", "1234bjbkj", "289hnhns"],
+              "topics" : ["asdfjb222", "1234bjbkj", "289hnhns"],
+        }
+
++ Response 401 (application/json)
+
+        {
+            "error": "error.unauthorized"
+        }
+
+### Update a User [PATCH]
+Update user avatar
+
++ Request (application/json)
+
+        {
+              "NewValue" : "2",
+        }
+
++ Response 200 (application/json)
+
++ Response 401 (application/json)
+
+        {
+              "error": "error.unauthorized"
+        }
+
+### Remove a User [DELETE]
++ Response 204
+
++ Response 401 (application/json)
+
+        {
+            "error": "error.unauthorized"
+        }

@@ -1,0 +1,33 @@
+<div class="login-screen">
+<h1> Log In! </h1>
+<div class="input-wrap">
+  <label>USERNAME:<input type="text" class="login-box" ng-model="user.username"></label>
+</div>
+<div class="input-wrap">
+  <label>PASSWORD:<input type="password" class="login-box" ng-model="user.password"></label>
+</div>
+<div class="input-wrap">
+  <br>
+  <button ng-click="login()" ng-disabled="invalidLogin()">LOGIN</button>
+</div>
+<hr>
+<h1> No Account? Sign Up! </h1>
+<div class="input-wrap">
+  <label>USERNAME:<input type="text" class="login-box" ng-model="newUser.username"></label>
+  <p>Careful! Cannot be changed!</p>
+</div>
+<div class="input-wrap">
+  <label>PASSWORD:<input type="password" class="login-box" ng-model="newUser.password"></label>
+  <p>Create a super strong password!</p>
+</div>
+<div class="input-wrap">
+  <label>CHECK PASSWORD:<input type="password" class="login-box" ng-model="newPasswordCheck"></label>
+  <p ng-show="unmatchedPasswords()">Passwords must match!</p>
+  <p ng-show="!invalidSignup()">Let's go! :)</p>
+</div>
+<div class="input-wrap">
+  <br>
+  <button ng-click="signUp()" ng-disabled="invalidSignup()">SIGNUP</button>
+</div>
+<p>{{ errorMessage }}</p>
+</div>

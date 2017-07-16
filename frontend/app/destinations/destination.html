@@ -1,0 +1,13 @@
+<h1> Page for {{ destination.value.name }} </h1>
+<h2> Topics: </h2>
+<div class="container">
+  <div class="no-topics" >
+    <h2 ng-show="noTopics()">No topics yet! Be the first to make one!</h2>
+  </div>
+  <div class="topic-preview" ng-repeat="topic in topics">
+    <topic-prvw info="topic" index="{{$index}}"></topic-prvw>
+  </div>
+  <div class="create-topic">
+    <crt-topic></crt-topic>
+  </div>
+</div>

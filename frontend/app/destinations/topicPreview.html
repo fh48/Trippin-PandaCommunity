@@ -1,0 +1,25 @@
+<div>
+  <div class="topic-title">
+    <span ng-show="!editMode">
+      <a ng-href="{{info.path}}" ng-click="$parent.updateCurrent(index)">
+        <h3> {{ index-(-1) }}. {{ info.value.title }} </h3>
+      </a>
+    </span>
+    <span ng-show="editMode">
+      <input ng-model="info.value.title">
+      <button ng-click='$parent.edit(index)'>SAVE</button>
+    </span>
+  </div>
+  <div class="topic-info">
+    <p>Created by {{ info.value.created_by }} at {{ info.value.created_at | date : "MM/dd/yyyy',' h:mma" : GMT}}</p>
+    <p>Likes: {{ info.value.upvotes-info.value.downvotes }}</p>
+    <div class="topic-buttons">
+      <button ng-click='$parent.vote(index,"+")' ng-disabled='$parent.reactedTo(index)'>LIKE</button>
+      <button ng-click='$parent.vote(index,"-")' ng-disabled='$parent.reactedTo(index)'>DISLIKE</button>
+    </div>
+    <div ng-show="$parent.ownTopic(index)" class="topic-buttons">
+      <button ng-click="editMode=true">EDIT</button>
+      <button ng-click='$parent.delete(index)'>DELETE</button>
+    </div>
+  </div>
+</div>

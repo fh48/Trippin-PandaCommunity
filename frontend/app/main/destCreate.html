@@ -1,0 +1,7 @@
+<div>
+  <h2>Create a new Destination!</h2>
+  Name<input type="text" width="50%" ng-model="newDest.name"></input>
+  Country<input type="text" width="50%" ng-model="newDest.country"></input>
+  Image<input type="text" width="50%" ng-model="newDest.img"></input>
+  <button ng-disabled="invalidText()" class="newButton" ng-click="createDest()">{{ invalidText() == true ? 'ENTER TEXT' : 'CREATE!' }}</button>
+</div>

@@ -1,0 +1,37 @@
+<html>
+<base href="/">
+
+<head>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css"></link>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-theme.css"></link>
+  <link rel="stylesheet" href="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css"></link>
+  <link rel="stylesheet" href="app/css/main.css">
+</head>
+
+<body ng-app="tpanda">
+
+  <div nav-bar></div>
+  <div ng-view></div>
+
+  <!-- Imported -->
+  <script src="node_modules/angular/angular.js"></script>
+  <script src="node_modules/angular-route/angular-route.js"></script>
+
+  <!-- Bootstrap -->
+  <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+
+  <!-- Modules -->
+  <script src="app/tpanda.js"></script>
+
+  <!-- Controllers -->
+  <script src="app/nav/navigation.js"></script>
+  <script src="app/destinations/destination.js"></script>
+  <script src="app/topics/topic.js"></script>
+  <script src="app/main/main.js"></script>
+  <script src="app/user/profile.js"></script>
+
+  <!-- Directives -->
+
+</body>
+
+</html>

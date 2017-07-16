@@ -1,0 +1,22 @@
+<div>
+  <div class=title-page>
+    <div>
+      <img class="tpanda-img" ng-src="{{avatar}}"/>
+    </div>
+    <div class="tpanda-title">
+      <h1>Trippin' Panda</h1>
+      <h4>{{::tagline}}</h4>
+    </div>
+  </div>
+
+  <hr size=2>
+
+  <div class="container">
+    <div class="dest-preview" ng-repeat="dest in destinations">
+      <dest-prvw info="dest" index="{{$index}}"></dest-prvw>
+    </div>
+    <div class="create-dest" ng-show="{{username=='admin'}}">
+      <crt-dest></crt-dest>
+    </div>
+  </div>
+</div>

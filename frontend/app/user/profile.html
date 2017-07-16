@@ -1,0 +1,14 @@
+<div class=profile>
+<h2> User Profile </h2>
+<p> Hey <b>{{ user._id }}!!</b> :D</p>
+<p> You've been with us since {{ user.date | date : "MM/dd/yyyy" : GMT }}</p>
+<p>Since then you've made <b>{{ user.topicsCreated.length }} topics!</b></p>
+<p>You've also created <b>{{ user.postsCreated.length }} posts! Wow!</b></p>
+<p>Choose your pandatar! <b>(Takes effect after next log in)</b></p>
+<div class="pandatar-chooser">
+  <div class="pandatar" ng-repeat="panda in pandatars">
+      <pandatar panda="panda" path="path" index="{{$index}}"></pandatar>
+  </div>
+</div>
+<button class=delete-profile-button ng-click='deleteProfile()'>DELETE PROFILE</button>
+</div>
